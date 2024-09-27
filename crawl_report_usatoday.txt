@@ -1,0 +1,37 @@
+Name: Aiyu Zhang
+USC ID: 8524183902
+News site crawled: usatoday.com
+Number of threads: 6
+
+Fetch Statistics
+================
+# fetches attempted: 19963
+# fetches succeeded: 19963
+# fetches failed or aborted: 0
+
+Outgoing URLs:
+==============
+Total URLs extracted: 2169476
+# unique URLs extracted: 183333
+# unique URLs within News Site: 70483
+# unique URLs outside News Site: 112850
+
+Status Codes:
+=============
+200 OK: 19963
+
+File Sizes:
+===========
+< 1KB: 3
+1KB ~ <10KB: 1362
+10KB ~ <100KB: 7461
+100KB ~ <1MB: 11023
+>= 1MB: 114
+
+Content Types:
+==============
+text/html: 11209
+image/jpeg: 6613
+image/webp: 1635
+image/svg+xml: 5
+image/png: 501

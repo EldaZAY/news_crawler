@@ -1,0 +1,36 @@
+Name: Aiyu Zhang
+USC ID: 8524183902
+News site crawled: nytimes.com
+Number of threads: 6
+
+Fetch Statistics
+================
+# fetches attempted: 14698
+# fetches succeeded: 14698
+# fetches failed or aborted: 0
+
+Outgoing URLs:
+==============
+Total URLs extracted: 2468893
+# unique URLs extracted: 109368
+# unique URLs within News Site: 64499
+# unique URLs outside News Site: 44869
+
+Status Codes:
+=============
+200 OK: 14698
+
+File Sizes:
+===========
+< 1KB: 1
+1KB ~ <10KB: 241
+10KB ~ <100KB: 663
+100KB ~ <1MB: 11420
+>= 1MB: 2356
+
+Content Types:
+==============
+text/html: 14431
+image/jpeg: 242
+image/gif: 1
+image/png: 7

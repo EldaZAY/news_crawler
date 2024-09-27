@@ -1,0 +1,31 @@
+Name: Aiyu Zhang
+USC ID: 8524183902
+News site crawled: foxnews.com
+Number of threads: 6
+
+Fetch Statistics
+================
+# fetches attempted: 19896
+# fetches succeeded: 19896
+# fetches failed or aborted: 0
+
+Outgoing URLs:
+==============
+Total URLs extracted: 3503184
+# unique URLs extracted: 117460
+# unique URLs within News Site: 54671
+# unique URLs outside News Site: 62789
+
+Status Codes:
+=============
+200 OK: 19896
+
+File Sizes:
+===========
+10KB ~ <100KB: 5665
+100KB ~ <1MB: 14227
+>= 1MB: 4
+
+Content Types:
+==============
+text/html: 19896

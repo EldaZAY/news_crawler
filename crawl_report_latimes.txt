@@ -1,0 +1,37 @@
+Name: Aiyu Zhang
+USC ID: 8524183902
+News site crawled: latimes.com
+Number of threads: 6
+
+Fetch Statistics
+================
+# fetches attempted: 19870
+# fetches succeeded: 19870
+# fetches failed or aborted: 0
+
+Outgoing URLs:
+==============
+Total URLs extracted: 5089796
+# unique URLs extracted: 409666
+# unique URLs within News Site: 69264
+# unique URLs outside News Site: 340402
+
+Status Codes:
+=============
+200 OK: 19870
+
+File Sizes:
+===========
+< 1KB: 9
+1KB ~ <10KB: 32
+10KB ~ <100KB: 127
+100KB ~ <1MB: 19601
+>= 1MB: 100
+
+Content Types:
+==============
+text/html: 19733
+image/svg+xml: 3
+image/png: 80
+image/jpeg: 48
+image/gif: 5
