@@ -16,27 +16,32 @@ from news_crawler import settings
 
 def clean_url(url):
     return url.removeprefix("https://").removeprefix("http://").removeprefix("www.").removesuffix("/")
+scrapy.linkextractors.IGNORED_EXTENSIONS
 
-
-class NytimesSpider(CrawlSpider):
-    name = 'nytimes'
-    allowed_domains = ['nytimes.com', 'www.nytimes.com']
-    start_urls = ['https://www.nytimes.com']
+class NewsSpider1(CrawlSpider):
+    name = 'news1'
+    # allowed_domains = ['nytimes.com', 'www.nytimes.com']
+    # start_urls = ['https://www.nytimes.com']
 
     # rules = (
     #     Rule(LinkExtractor(allow_domains=allowed_domains), callback='parse_item', follow=True),
     # )
 
-    def __init__(self, *args, **kwargs):
-        super(NytimesSpider, self).__init__(*args, **kwargs)
+    def __init__(self, sitename=None, *args, **kwargs):
+        super(NewsSpider1, self).__init__(*args, **kwargs)
+        if sitename is None:
+            raise ValueError("sitename is required")
+        self.sitename = sitename
+        self.allowed_domains = [f'{sitename}.com', f'www.{sitename}.com']
+        self.start_urls = [f'https://www.{sitename}.com']
         self.settings = get_project_settings()
         self.total_urls_extracted = 0
         self.fetched_urls = set()
         self.unique_urls = set()
 
-        self.fetch_file = open(f'fetch_{self.name}.csv', 'w', newline='')
-        self.visit_file = open(f'visit_{self.name}.csv', 'w', newline='')
-        self.urls_file = open(f'urls_{self.name}.csv', 'w', newline='')
+        self.fetch_file = open(f'fetch_{self.sitename}.csv', 'w', newline='')
+        self.visit_file = open(f'visit_{self.sitename}.csv', 'w', newline='')
+        self.urls_file = open(f'urls_{self.sitename}.csv', 'w', newline='')
 
         self.fetch_writer = csv.writer(self.fetch_file)
         self.visit_writer = csv.writer(self.visit_file)
@@ -64,6 +69,7 @@ class NytimesSpider(CrawlSpider):
         self.status_codes[response.status] += 1
 
         if response.status // 100 == 2:
+            self.fetches_succeeded += 1
             content_type = response.headers.get('Content-Type', b'').decode('utf-8').split(';')[0].strip()
             allowed_types = ['text/html', 'application/pdf', 'application/msword', 'image/']
 
@@ -118,7 +124,7 @@ class NytimesSpider(CrawlSpider):
         self.write_report()
 
     def write_report(self):
-        with open(f'crawl_report_{self.name}.txt', 'w') as report:
+        with open(f'crawl_report_{self.sitename}.txt', 'w') as report:
             report.write("Name: Aiyu Zhang\n")
             report.write("USC ID: 8524183902\n")
             report.write(f"News site crawled: {self.allowed_domains[0]}\n")

@@ -20,12 +20,6 @@ def clean_url(url):
 
 class NewsSpider(CrawlSpider):
     name = 'news'
-    # allowed_domains = ['nytimes.com', 'www.nytimes.com']
-    # start_urls = ['https://www.nytimes.com']
-
-    # rules = (
-    #     Rule(LinkExtractor(allow_domains=allowed_domains), callback='parse_item', follow=True),
-    # )
 
     def __init__(self, sitename=None, *args, **kwargs):
         super(NewsSpider, self).__init__(*args, **kwargs)
@@ -34,9 +28,19 @@ class NewsSpider(CrawlSpider):
         self.sitename = sitename
         self.allowed_domains = [f'{sitename}.com', f'www.{sitename}.com']
         self.start_urls = [f'https://www.{sitename}.com']
+
+        self.rules = (
+            Rule(LinkExtractor(allow=[rf'https?://(www\.)?{self.sitename}.*'], deny_extensions=[],
+                               attrs=['href', 'src'], tags=['a', 'img'],),
+                 callback='parse_item', follow=True),
+        )
+        # here all extensions are allowed
+        # unwanted types are filtered later after successful fetching pages, based on content-type
+        super()._compile_rules()
+
         self.settings = get_project_settings()
         self.total_urls_extracted = 0
-        self.fetched_urls = set()
+        # self.fetched_urls = set()
         self.unique_urls = set()
 
         self.fetch_file = open(f'fetch_{self.sitename}.csv', 'w', newline='')
@@ -58,9 +62,9 @@ class NewsSpider(CrawlSpider):
         self.content_types = defaultdict(int)
 
 
-    def start_requests(self):
-        for url in self.start_urls:
-            yield Request(url, callback=self.parse_item, meta={'depth': 0})
+    # def start_requests(self):
+    #     for url in self.start_urls:
+    #         yield Request(url, callback=self.parse_item, meta={'depth': 0})
 
     def parse_item(self, response):
         # update stats: fetches
@@ -78,7 +82,7 @@ class NewsSpider(CrawlSpider):
                 try:
                     links = response.css('a::attr(href)').getall() + response.css('img::attr(src)').getall()
                 except NotSupported:
-                    logging.warning(f"Non-text content encountered at {response.url}")
+                    logging.info(f"Non-text content encountered at {response.url}")
                     links = []
                 self.visit_writer.writerow([
                     response.url,
@@ -111,11 +115,6 @@ class NewsSpider(CrawlSpider):
                     self.urls_writer.writerow([absolute_url, 'OK' if in_domain else 'N_OK'])
                     self.unique_urls.add((cleaned_url, 'OK' if in_domain else 'N_OK'))
 
-                    if in_domain and cleaned_url not in self.fetched_urls:
-                        self.fetched_urls.add(cleaned_url)
-                        # yield Request(absolute_url, callback=self.parse_item)
-                        yield Request(absolute_url, callback=self.parse_item,
-                                      meta={'depth': response.meta['depth'] + 1})
 
     def closed(self, reason):
         self.fetch_file.close()
